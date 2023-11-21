@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Data Display</title>
+  <style>
+    #yellow-block {
+      background-color: yellow;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    /* Додано нові кольори */
+    #yellow-block a {
+      color: blue;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    #yellow-block a:hover {
+      color: red;
+    }
+
+    #yellow-block ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #yellow-block li {
+      margin-bottom: 5px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#" onclick="loadData('languages')">Мови</a>
+  <a href="#" onclick="loadData('students')">Студенти</a>
+
+  <div id="yellow-block"></div>
+
+  <script>
+    function loadData(dataType) {
+      fetch(dataType === 'languages' ? '1.txt' : '2.txt')
+        .then(response => response.text())
+        .then(data => displayData(dataType, data))
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
+    function displayData(dataType, data) {
+      var yellowBlock = document.getElementById('yellow-block');
+      yellowBlock.innerHTML = '';
+
+      var jsonData = JSON.parse(data);
+      var ul = document.createElement('ul');
+
+      jsonData[dataType].forEach(function(item) {
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(item));
+        ul.appendChild(li);
+      });
+
+      yellowBlock.appendChild(ul);
+    }
+  </script>
+
+</body>
+</html>
